@@ -1,0 +1,72 @@
+ async (req, res) =>{
+
+req = request (data coming from frontend)
+res = response (data we send back)
+async allows us to use await inside this function.
+
+
+
+const { name, age, city } = req.body;
+
+We do object destructuring
+This line extracts data sent from the frontend.
+
+
+
+INSERT INTO viewtable(name, age, city)VALUES (?, ?, ?)
+The ? placeholders are replaced with actual values from the array:[name, age, city]
+This prevents SQL injection and is the correct method
+
+
+
+error: err.message
+
+This is the original MySQL error, coming from:catch(err)
+err.message usually contains:The actual SQL error,Exact failure reason,Machine error description
+This message is not for users,
+it is for developers & debugging.
+
+
+
+router.put("/updating/:id", ... )
+router.put()
+This creates a PUT endpoint.
+✔ "/updating/:id"
+This means:
+The endpoint URL contains a parameter called id
+Example request:PUT /crudapi/updating/3
+✔ Where does this id go?
+It is stored in:req.params.id
+Why? Because:
+params = URL parameters
+body = data you send in JSON
+
+
+
+const { name, age, city } = req.body;
+This extracts update data sent from frontend.
+This line picks values from req.body and assigns them to variables:
+name → req.body.name  
+age  → req.body.age  
+city → req.body.city
+
+
+
+The resource you want to update/delete must be identified in the URL, not the body.
+Body is for Data, not for Identifying the Record
+Changing ID in body is dangerous
+Real IT company practice
+Every company uses this pattern:
+✔ URL → identifies the target
+✔ Body → contains new values
+✔ Params → never changed
+✔ Body → always changeable data
+but technically:
+✔ Getting ID from body is allowed
+✔ Getting ID from params is allowed
+✔ Both work
+According to REST API rules:
+👉 Resource identification should be in the URL
+👉 Data to update should be in the body
+Resource identifier (ID) should be in the URL, NOT in the body.
+This is the official REST API standard.
