@@ -8,10 +8,12 @@ const router = express.Router();
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
+  port: parseInt(process.env.DB_PORT), // 1. Added to handle Aiven's 5-digit port
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   connectionLimit: 10,
+  ssl: { rejectUnauthorized: false }, // 2. Added to allow secure cloud connection
 });
 
 const queryDatabase = (query, params = []) => {
